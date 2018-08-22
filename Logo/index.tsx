@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {get} from 'lodash';
 import * as moment from 'moment';
+import './test-big.jpg';
 
 import style from './style.less';
 
