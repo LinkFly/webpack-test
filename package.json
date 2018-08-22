@@ -1,0 +1,22 @@
+{
+    "scripts": {
+        "build": "webpack"
+    },
+
+    "dependencies": {
+        "moment": "^2.22.2",
+        "react": "^16.4.0",
+        "react-dom": "16.4.1",
+        "react-intl": "^2.4.0"
+    },
+
+    "devDependencies": {
+        "@types/react": "^16.3.16",
+        "@types/react-dom": "^16.0.6",
+
+
+        "webpack": "^4.6.0",
+        "wildcards-entry-webpack-plugin": "^2.1.0",
+        "awesome-typescript-loader": "^5.0.0"
+    }
+}
