@@ -12,19 +12,18 @@ function BuildStaticMap({options: {dir, ext, outputDir, staticMapFile}}) {//{opt
 BuildStaticMap.prototype.apply = function(compiler) {
   let res = {};
   compiler.plugin('done', () => {
-    fs.writeFile(this.staticMapFile, JSON.stringify(res), function(error){
+    fs.writeFile(this.staticMapFile, JSON.stringify(res, null, 2), function(error){
       if(error) throw error;
     });
   });
   compiler.plugin('emit', (compilation, callback) => {
-    for(let filename in compilation.assets) {
+    for(let filename of Object.keys(compilation.assets)) {
       let pathObj = path.parse(filename);
-      if (pathObj.ext === '.js') {
-        let name = path.parse(pathObj.name).name;
-        let outputName = path.join(this.outputDir, filename);
-        let assetName = path.join(this.dir, `${name}.${this.ext}`);
-        res[assetName] = outputName;
-      }
+      let name = path.parse(pathObj.name).name;
+      let outputName = path.join(this.outputDir, filename);
+      let curType = pathObj.ext === '.js' ? this.ext : pathObj.ext.substr(1);
+      let assetName = path.join(this.dir, `${name}.${curType}`);
+      res[assetName] = outputName;
     }
     callback();
   });

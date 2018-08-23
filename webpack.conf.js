@@ -1,5 +1,6 @@
 const path = require('path');
-const WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+/*const WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');*/
 const BuildStaticMapPlugin = require('./webpack.plugins/build-static-map.js');
 
 const srcDirname = "sources";
@@ -28,13 +29,23 @@ const config = {
             },
             {
               test: /\.less$/,
-              use: [{
-                loader: 'style-loader' // creates style nodes from JS strings
-              }, {
-                loader: 'css-loader' // translates CSS into CommonJS
-              }, {
-                loader: 'less-loader' // compiles Less to CSS
-              }]
+              use: [
+                /*{
+                  loader: 'style-loader' // creates style nodes from JS strings
+                },*/
+                {
+                  loader: MiniCssExtractPlugin.loader,
+                  options: {
+                    // you can specify a publicPath here
+                    // by default it use publicPath in webpackOptions.output
+                    publicPath: '../',
+                  }
+                },
+                {
+                  loader: 'css-loader' // translates CSS into CommonJS
+                }, {
+                  loader: 'less-loader' // compiles Less to CSS
+                }]
             },
             {
               test: /\.(jpe?g|png|gif|svg)$/,
@@ -57,6 +68,11 @@ const config = {
     },
 
     "plugins": [
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: "[name].[hash].css"
+      }),
       new BuildStaticMapPlugin({options: {
           dir: srcDirname,
           ext: mainExt,
