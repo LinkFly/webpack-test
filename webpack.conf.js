@@ -1,9 +1,12 @@
 const path = require('path');
 const WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');
+const BuildStaticMapPlugin = require('./webpack.plugins/build-static-map.js');
 
 const srcDirname = "sources";
-const outputDir = path.resolve(process.cwd(), 'build/');
+const buildDirname = 'build';
+const outputDir = path.resolve(process.cwd(), buildDirname);
 const sourcesDir = path.resolve(process.cwd(), srcDirname);
+const mainExt = 'tsx';
 
 const config = {
     "target": "web",
@@ -39,7 +42,7 @@ const config = {
                 loader: 'url-loader',
                 options: {
                   limit: 30720,
-                  name: '[path][name].[ext]',
+                  name: '[path][name].[hash].[ext]',
                   outputPath: 'img/'
                 }
               }
@@ -49,9 +52,18 @@ const config = {
 
     "output": {
         "path": outputDir,
-        "filename": '[name].js',
+        "filename": '[name].[hash].js',
         "libraryTarget": "commonjs"
-    }
+    },
+
+    "plugins": [
+      new BuildStaticMapPlugin({options: {
+          dir: srcDirname,
+          ext: mainExt,
+          outputDir: buildDirname,
+          staticMapFile: './staticmap.json'
+      }})
+    ]
 };
 
 
