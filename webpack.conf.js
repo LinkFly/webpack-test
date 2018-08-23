@@ -1,7 +1,7 @@
 const path = require('path');
 const WildcardsEntryWebpackPlugin = require('wildcards-entry-webpack-plugin');
 
-const srcDirname = "Logo";
+const srcDirname = "sources";
 const outputDir = path.resolve(process.cwd(), 'build/');
 const sourcesDir = path.resolve(process.cwd(), srcDirname);
 
@@ -9,7 +9,12 @@ const config = {
     "target": "web",
     "mode": "none",
 
-    "entry": WildcardsEntryWebpackPlugin.entry(sourcesDir + '/**/index.tsx'),
+    "entry": {
+      /*'index': WildcardsEntryWebpackPlugin.entry(sourcesDir + '/!**!/index.tsx'),*/
+      'index': path.join(sourcesDir, 'index.tsx'),
+      'react-full': path.join(sourcesDir, 'react-full.tsx'),
+      'extern-libs': path.join(sourcesDir, 'extern-libs.tsx')
+    },
 
     "module": {
         "rules": [
@@ -20,9 +25,9 @@ const config = {
             },
             {
               test: /\.less$/,
-              use: [{
+              use: [/*{
                 loader: 'style-loader' // creates style nodes from JS strings
-              }, {
+              },*/ {
                 loader: 'css-loader' // translates CSS into CommonJS
               }, {
                 loader: 'less-loader' // compiles Less to CSS
