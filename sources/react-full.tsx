@@ -1,6 +1,6 @@
-import * as React from 'react';
-import ReactDOM from 'react-dom';
+let _React = require('react');
+let _ReactDOM = require('react-dom');
 
-export {React, ReactDOM};
+window['reactFull'] = {React: _React, ReactDOM: _ReactDOM};
 
 

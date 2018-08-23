@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "build": "webpack --config webpack.conf.js && browserify build/index.js -o build/build.js"
+        "build": "webpack --config webpack.conf.js && browserify build/extern-libs.js -o build/extern-libs-build.js && browserify build/react-full.js -o build/react-full-build.js && browserify build/index.js -o build/build.js"
     },
     "dependencies": {
         "moment": "^2.22.2",
